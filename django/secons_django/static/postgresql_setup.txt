@@ -1,0 +1,8 @@
+crate database database_name
+create user userName with password
+/c datanase_name
+alter role userName set client_encoding to 'utf8'
+create schema schema_name authorization userName
+alter role dev set default_transaction_encoding to'read committed'
+alter role dev set timezone to 'utc'
+alter role ded in database database_name set search_path=schema_name
