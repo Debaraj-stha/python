@@ -1,3 +1,3 @@
-string = "Hello world"
-x =type(string)
-print(x)
+import numpy as np
+c=np.absolute(-6666)
+print(c)
