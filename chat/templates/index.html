@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{%block title%}Index{%endblock title%}
+{%block body%}
+<div class="container p-5 ">
+
+<h2>Chat app in Django</h1>
+<button class="btn btn-success text-white"><a href="/logout" class="text-white">Logout</a></button>
+<div class="container mt-5 bg-secondary p-4 ">
+<div class="row d-flex justify-content-around">
+<div class="card" style="width: 18rem;">
+<div class="h-50">
+{%load static%}
+  <img src="{%static 'images/cute-chat-bot-chatting-with-man-person-vector-26757240.jpg' %}" class="card-img-top object-fit-fill h-100" alt="...",>
+ </div>
+  <div class="card-body">
+
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <a href="individual" class="btn btn-primary">Individual chat</a>
+  </div>
+</div>
+<div class="card" style="width: 18rem;">
+<div class=" h-50">
+{%load static%}
+  <img src="{%static 'images/group.jpg' %}" class="card-img-top h-100" alt="...">
+ </div>
+  <div class="card-body">
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <a href="group" class="btn btn-primary">Group chat</a>
+  </div>
+</div>
+</div>
+</div>
+</div>
+{%endblock body%}

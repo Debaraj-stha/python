@@ -1,0 +1,22 @@
+{% extends "base.html" %} {% block title %}Login{% endblock title %} 
+{%block body%}
+<div class="container mt-5">
+  <h3>Login</h3>
+  <form onsubmit="return validateForm()"method="post">
+  {% csrf_token %}
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input
+        type="text"
+        class="form-control"
+    
+        name="name"
+        id="name"
+      />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+
+{%endblock body%}

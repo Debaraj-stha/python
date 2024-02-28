@@ -1,0 +1,40 @@
+{%extends 'base.html'%}
+{%block title%} Users {%endblock title%}
+{%block body%}
+<div class="container mt-5">
+<button class="btn btn-success text-white"><a href="/logout" class="text-white">Logout</a></button>
+
+{%for message in messages%}
+{%if message.to is None%}
+<div class="card mb-3 mt-5">
+  <a href="/chat?group={{message.group}}">
+  <div class="card-body text-decoration-none text-black-50">
+    <blockquote class=" mb-0 text-decoration-none">
+      <p class="text-decoration-none">{{message.group}}</p>
+   <div class="d-flex justify-content-between">
+    <span class="text-decoration-none">{{message.message}}</span>
+    <span>{{message.created_at}}</span>
+   </div>
+    </blockquote>
+  </div>
+  </a>
+</div>
+{%endif%}
+{%if message.group is None%}
+<div class="card mb-3 mt-5">
+  <a href="/chat?user={{message.to.id}}">
+  <div class="card-body text-decoration-none text-black-50">
+    <blockquote class=" mb-0 text-decoration-none">
+      <p class="text-decoration-none">{{message.to}}</p>
+   <div class="d-flex justify-content-between">
+    <span class="text-decoration-none">{{message.message}}</span>
+    <span>{{message.created_at}}</span>
+   </div>
+    </blockquote>
+  </div>
+  </a>
+</div>
+{%endif%}
+{%endfor%}
+</div>
+{%endblock body%}
