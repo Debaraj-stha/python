@@ -4,7 +4,6 @@ from asgiref.sync  import async_to_sync
 import urllib.parse
 class MyConummer(WebsocketConsumer):
     def connect(self):
-     
         query_string = self.scope['query_string'].decode('utf-8')
         query_params = urllib.parse.parse_qs(query_string)
         groupName = query_params.get('group', [None])[0]

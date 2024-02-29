@@ -13,6 +13,14 @@ function validateForm() {
     return true;
   }
 }
+
+console.log("called");
+window.load = function () {
+  let url = new URL(window.location);
+  console.log(url);
+};
+connectToSocket();
+
 async function sendMessage() {
   let message = document.getElementById("message").value;
   if (message.length == 0) {
@@ -20,23 +28,27 @@ async function sendMessage() {
   } else if (message.trim().length == 0) {
     return false;
   } else {
+    let url = new URL(window.location);
+    let urlSearchParam = new URLSearchParams(url.search);
+    let group = urlSearchParam.get("group");
+    let to = urlSearchParam.get("to");
+    let data = {
+      message: message,
+      group: group,
+      to: to,
+    };
     const xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         const res = JSON.parse(this.response);
         console.log(res);
-        message = "";
-        let wrapper = document.getElementById("messages");
-        let x = `<div class="card mb-3 mt-5"><a href="#"> <div class="card-body text-decoration-none text-black-50"><blockquote class=" mb-0 text-decoration-none"> <p class="text-decoration-none">User name</p>  <div class="d-flex justify-content-between">
-    <span class="text-decoration-none">${res.data.message}</span>
-    <span>${res.data.created_at}</span>
-   </div></blockquote></div></a>    </div>`;
-        wrapper.innerHTML += x;
+        message = "  ";
       }
     };
     xhttp.open("POST", "http://localhost:8000/message/send", true);
     xhttp.setRequestHeader("Content-Type", "application/json");
-    xhttp.send(JSON.stringify({ message: message }));
+    xhttp.send(JSON.stringify(data));
+    message = "";
   }
 }
 function connectToSocket() {
@@ -52,18 +64,19 @@ function connectToSocket() {
     console.log("error", event);
   };
   socket.onmessage = function (s, event) {
-    console.log(event);
-    const res = JSON.parse(event["text_data"]);
-    console.log(res);
+    console.log("s", s);
+    console.log("event", event);
+    const res = JSON.parse(s.data);
+    console.log("res", res);
+    console.log(res.message);
     message = "";
     let wrapper = document.getElementById("messages");
-    let x = `<div class="card mb-3 mt-5"><a href="#"> <div class="card-body text-decoration-none text-black-50"><blockquote class=" mb-0 text-decoration-none"> <p class="text-decoration-none">User name</p>  <div class="d-flex justify-content-between">
-    <span class="text-decoration-none">${res.data.message}</span>
-    <span>${res.data.created_at}</span>
-   </div></blockquote></div></a>    </div>`;
-    wrapper.innerHTML += x;
+    let x = `<div class="card mb-3 mt-5"><a href="#"> <div class="card-body text-decoration-none text-black-50"><blockquote class=" mb-0 text-decoration-none"> <p class="text-decoration-none">${res.from}</p>  <div class="d-flex justify-content-between">
+      <span class="text-decoration-none">${res["message"]}</span>
+      <span>${res.created_at}</span>
+     </div></blockquote></div></a>    </div>`;
+    if (res["message"] != null) {
+      wrapper.innerHTML += x;
+    }
   };
-  socket.o;
 }
-
-connectToSocket();

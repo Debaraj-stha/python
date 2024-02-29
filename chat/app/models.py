@@ -38,9 +38,10 @@ def sendMessage(sender,instance,created,**kwargs):
             "created_at": instance.created_at.strftime("%y-%m-%d %H:%M:%S"),
             "group":instance.group.groupName if instance.group else None
         }
+        print("response",str(response))
         async_to_sync(channel_layer.group_send)(
-            "group_%"%(instance.group.name if instance.group is not None else instance.to.id),
-            {"type": "chat.message", "text": json.dumps(response)},
+            "group_%s"%(instance.group.groupName if instance.group is not None else instance.to.id),
+            {"type": "custom.message", "text": json.dumps(response)},
         )
         print("message is send ")
         

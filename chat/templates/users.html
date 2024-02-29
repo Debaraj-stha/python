@@ -2,8 +2,9 @@
 {%block title%} Users {%endblock title%}
 {%block body%}
 <div class="container mt-5">
+<div class="row justify-content-around">
 <button class="btn btn-success text-white"><a href="/logout" class="text-white">Logout</a></button>
-
+</div>
 {%for message in messages%}
 {%if message.to is None%}
 <div class="card mb-3 mt-5">

@@ -21,7 +21,10 @@ def loginPage(request):
         if user is  None:
             instance=User(name=name)
             instance.save()
-        return redirect('/')
+        
+        res=redirect('/')
+        # res.set_cookie('name',name)
+        return res
     return render(request,'login.html')
 def logout(request):
     response=redirect('login')
@@ -40,7 +43,6 @@ def chatType(request,type):
                 "from": message.f,
                 "created_at": message.created_at.strftime("%y-%m-%d %H:%M:%S")
             })
-        print(myMessages)
         
     else:
         messages=Message.objects.exclude(to__isnull=True)
@@ -61,11 +63,18 @@ def submitMessage(request):
         fro=request.COOKIES.get('name')
         user=User.objects.filter(name=fro).first()
         data=json.loads(request.body)
+        print(f"data {str(data)}")
         m=data.get('message')
         to=data.get('to',None)
         group=data.get('group',None)
-        toUser=User.objects.filter(id=to).first()
-        message=Message(message=m,to=toUser,f=user,group=group)
+        toUser=None
+        groupInstance=None
+        if to is not None:
+            toUser=User.objects.filter(id=to).first()
+        # if group is not None:
+        groupInstance=Group.objects.filter(groupName=group if group is not None else 'demo').first()
+        message=Message(message=m,to=toUser,f=user,group=groupInstance)
+      
         message.save()
         data={
             "message":message.message,
@@ -75,7 +84,7 @@ def submitMessage(request):
             "group":message.group.groupName if message.group else None
             
         }
-        return JsonResponse({"status":True, "message":"message send successfully","data":data},status=200)
+        return JsonResponse({"status":True, "message":"message send successfully"},status=200)
     except Exception as e:
         print(e)
         return JsonResponse({"message":f"Exception occured:{e}","status":False},status=500)
