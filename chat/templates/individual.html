@@ -1,0 +1,22 @@
+{%extends 'base.html'%}
+{%block title%}Group{%endblock title%}
+{%block body%}
+<div class="container">
+
+<h2>Individual Chat</h1>
+<button class="btn btn-success text-white"><a href="/logout" class="text-white">Logout</a></button>
+{%for user in users%}
+<div class="card mb-3 mt-5">
+  <a href="/chat?user={{user.id}}">
+  <div class="card-body text-decoration-none text-black-50">
+    <blockquote class=" mb-0 text-decoration-none">
+      <p class="text-decoration-none">{{user.name}}</p>
+  
+    </blockquote>
+  </div>
+  </a>
+</div>
+{%endfor%}
+</div>
+
+{%endblock body%}

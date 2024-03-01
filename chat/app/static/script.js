@@ -9,7 +9,7 @@ function validateForm() {
     alert("Please enter a valid name");
     return false;
   } else {
-    document.cookie = "name=" + name;
+    // document.cookie = "name=" + name;
     return true;
   }
 }

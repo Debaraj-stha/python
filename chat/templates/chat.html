@@ -5,19 +5,21 @@
 <div class="container mt-5 mb-5">
   <button class="btn btn-success text-white"><a href="/logout" class="text-white">Logout</a></button>
   <div id="messages">
+  {%for message in messages%}
   <div class="card mb-3 mt-5">
   <a href="#">
   <div class="card-body text-decoration-none text-black-50">
     <blockquote class=" mb-0 text-decoration-none">
-      <p class="text-decoration-none">Manish dangi</p>
+      <p class="text-decoration-none">{{message.from}}</p>
    <div class="d-flex justify-content-between">
-    <span class="text-decoration-none">What's up</span>
-    <span>20643</span>
+    <span class="text-decoration-none">{{message.message}}</span>
+    <span>{{message.created_at}}</span>
    </div>
     </blockquote>
   </div>
   </a>
 </div>
+{%endfor%}
   </div>
   <div class="fixed-bottom container mb-5">
     <form>
